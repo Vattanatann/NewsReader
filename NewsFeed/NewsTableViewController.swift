@@ -51,6 +51,7 @@ class NewsTableViewController: UITableViewController, XMLParserDelegate {
     
     //MARK: Table View DataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("numberOfRowsInSection: ", newsList.count)
         return newsList.count
     }
     
@@ -69,6 +70,7 @@ class NewsTableViewController: UITableViewController, XMLParserDelegate {
     //XML Delegate
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
+        print("---didStartElement")
         xmlElement = elementName
         if xmlElement == "item" {
             newsTitle = ""
@@ -82,6 +84,7 @@ class NewsTableViewController: UITableViewController, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         
+        print("+++foundCharacter")
         let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if data.count != 0 {
             switch xmlElement {
@@ -95,6 +98,8 @@ class NewsTableViewController: UITableViewController, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        
+        print("___didEndElement", elementName)
         if elementName == "item" {
             var myNews = News()
             myNews.title = newsTitle
@@ -104,6 +109,7 @@ class NewsTableViewController: UITableViewController, XMLParserDelegate {
             
             newsList.append(myNews)
         }
+        
     }
 
 }
